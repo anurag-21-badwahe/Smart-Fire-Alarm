@@ -2,16 +2,16 @@ const soundButton = document.querySelector('.sound_button');
 let soundEnabled = true;
 
 function fetchDataAndDisplay() {
-    fetch('GET https://api.thingspeak.com/channels/2498727/fields/1.json?api_key=JM75YVJWQS44R8CEresults=2')
+    fetch('https://api.thingspeak.com/channels/2498727/feeds.json?api_key=JM75YVJWQS44R8CE&results=2')
         .then(response => response.json())
         .then(data => {
             const latestFeed = data.feeds[data.feeds.length - 1];
             console.log(data.feeds);
             
             const latestField1 = latestFeed.field1;
-            const dataOnUi = `<h1>Data: ${latestField1}</h1>`;
+            const dataOnUi = `<h1> ${latestField1}</h1>`;
 
-            if (latestField1 > 50 && soundEnabled) {
+            if (latestField1 > 27 && soundEnabled) {
                 const audio = document.getElementById('audio');
                 audio.play();
             }
