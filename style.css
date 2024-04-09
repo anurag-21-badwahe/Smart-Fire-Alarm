@@ -12,6 +12,12 @@
   justify-content: center;
   align-items: center;
 }
+.fireText{
+  text-align: center;
+  color: #ff5733; /* Fire-like color */
+  font-family: 'Rock Salt', cursive; /* Font with a fiery feel */
+  text-shadow: 0 0 10px rgba(255, 87, 51, 0.8); /* Text shadow for a fiery glow */
+}
 
 .button-33 {
   background-color: #c2fbd7;

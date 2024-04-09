@@ -66,9 +66,41 @@ function updateBoxValues(boxIndex, value, newText) {
       }
     }
   }
-  
-// Update values for the first box (index 0)
-updateBoxValues(0, 40, "Temp.");
 
-// Update values for the second box (index 1)
-updateBoxValues(1, true, "Flame");
+  const fetchData = async () => {
+    const url = "https://api.thingspeak.com/channels/2498727/feeds.json?api_key=JM75YVJWQS44R8CE&results=2";
+  
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+  
+      // Extract the latest entry from the feeds array
+      const latestEntry = data.feeds[data.feeds.length - 1];
+  
+      // Extract field1 and field2 values from the latest entry
+      const field1Value = latestEntry.field1;
+      const field2Value = latestEntry.field2;
+      
+      console.log(field1Value);
+      
+  
+      // Update box values with the retrieved data
+      updateBoxValues(0, field2Value, "Temp.");
+  
+      // Check if field2Value indicates flame detection (assuming it's a number)
+      const isFlameDetected = field1Value < 1000; // Assuming field2Value is a number
+      console.log(isFlameDetected);
+      
+      updateBoxValues(1, isFlameDetected, "Flame");
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  
+  // Call fetchData initially to fetch and display data
+  fetchData();
+  
+  
+  // Set interval to fetch data periodically (every 5 seconds in this example)
+  setInterval(fetchData, 3000); // Adjust interval as needed
+  
