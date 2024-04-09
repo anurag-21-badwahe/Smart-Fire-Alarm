@@ -1,0 +1,7 @@
+https://api.thingspeak.com/update?api_key=7QQK8GVR6221AEE6&field2=4564
+
+the above url is for flame
+
+
+the below url is for temp
+https://api.thingspeak.com/update?api_key=7QQK8GVR6221AEE6&field2=2342
