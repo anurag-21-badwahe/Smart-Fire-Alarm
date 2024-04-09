@@ -227,25 +227,35 @@ function updateTempSensor(fieldValue) {
 }
 
 // Function to fetch data from the API and update sensors
+// Function to fetch data from the API and update sensors
 const fetchDataAndUpdateSensors = async () => {
-  const url =
-    "https://api.thingspeak.com/channels/2498727/feeds.json?api_key=JM75YVJWQS44R8CE&results=2";
+  const urlFlame =
+    "https://api.thingspeak.com/channels/2498727/fields/3.json?api_key=JM75YVJWQS44R8CE&results=2";
+  const urlTemp =
+    "https://api.thingspeak.com/channels/2498727/fields/1.json?api_key=JM75YVJWQS44R8CE&results=2";
 
   try {
-    const response = await fetch(url);
-    const data = await response.json();
+    // Fetch flame sensor data
+    const responseFlame = await fetch(urlFlame);
+    const dataFlame = await responseFlame.json();
+    
+    // Extract flame sensor value from the latest entry
+    const flameValue = dataFlame.feeds[1].field3; // Assuming flame data is in field3
+    console.log("Flame Sensor Value:", flameValue);
 
-    // Extract field1 and field2 values from the latest entry
+    // Update flame sensor
+    updateFlameSensor(flameValue);
 
-    // Temp. Sensor
-    const field1Value = parseInt(data.feeds[1].field1); // "38"
-    updateTempSensor(field1Value);
-    console.log("Temp. Sensor Value:", field1Value);
+    // Fetch temperature sensor data
+    const responseTemp = await fetch(urlTemp);
+    const dataTemp = await responseTemp.json();
 
-    // Flame Sensor
-    const field2Value = data.feeds[0].field2; // "4095"
-    updateFlameSensor(field2Value);
-    console.log("Flame Sensor Value:", field2Value);
+    // Extract temperature value from the latest entry
+    const tempValue = dataTemp.feeds[0].field1; // Assuming temperature data is in field1
+    console.log("Temperature Sensor Value:", tempValue);
+
+    // Update temperature sensor
+    updateTempSensor(tempValue);
 
     console.log("Alarm State:", alarmState.textContent);
     console.log("Initial Flame Detected:", initialFlameDetected);
@@ -256,9 +266,10 @@ const fetchDataAndUpdateSensors = async () => {
   }
 };
 
+
 // Call fetchDataAndUpdateSensors initially to fetch and display data
 fetchDataAndUpdateSensors();
 
-setInterval(fetchDataAndUpdateSensors,3000)
+setInterval(fetchDataAndUpdateSensors,15000)
 
 // Set interval to fetch data periodically (every 5 seconds in this example
