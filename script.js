@@ -71,4 +71,4 @@ function updateBoxValues(boxIndex, value, newText) {
 updateBoxValues(0, 40, "Temp.");
 
 // Update values for the second box (index 1)
-updateBoxValues(1, false, "Flame");
+updateBoxValues(1, true, "Flame");
